@@ -303,76 +303,169 @@
             color: var(--text-primary);
         }
         
-        .inventory-list {
-            max-height: 320px;
-            overflow-y: auto;
+        /* NEW INVENTORY GRID STYLES */
+        .inventory-container {
             margin: 1.5rem 0;
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+            max-height: 350px;
+            overflow-y: auto;
             padding-right: 0.5rem;
         }
 
-        .inventory-list::-webkit-scrollbar {
+        .inventory-grid::-webkit-scrollbar {
             width: 6px;
         }
 
-        .inventory-list::-webkit-scrollbar-track {
+        .inventory-grid::-webkit-scrollbar-track {
             background: rgba(255,255,255,0.1);
             border-radius: 3px;
         }
 
-        .inventory-list::-webkit-scrollbar-thumb {
+        .inventory-grid::-webkit-scrollbar-thumb {
             background: rgba(255,255,255,0.3);
             border-radius: 3px;
         }
 
-        .inventory-list::-webkit-scrollbar-thumb:hover {
+        .inventory-grid::-webkit-scrollbar-thumb:hover {
             background: rgba(255,255,255,0.5);
         }
-        
-        .fruit-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.25rem;
-            margin: 0.75rem 0;
-            background: rgba(255, 255, 255, 0.1);
+
+        .fruit-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
             border-radius: var(--border-radius-sm);
-            border-left: 4px solid transparent;
+            padding: 1.5rem;
+            text-align: center;
             transition: var(--transition);
             position: relative;
+            overflow: hidden;
+            cursor: default;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        .fruit-item::before {
+        .fruit-card::before {
             content: '';
             position: absolute;
-            left: 0;
             top: 0;
-            bottom: 0;
-            width: 4px;
+            left: 0;
+            right: 0;
+            height: 2px;
             background: var(--success-gradient);
-            border-radius: 0 4px 4px 0;
+            opacity: 0;
+            transition: var(--transition);
         }
 
-        .fruit-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(4px);
+        .fruit-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-lg);
         }
-        
+
+        .fruit-card:hover::before {
+            opacity: 1;
+        }
+
+        .fruit-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: var(--transition);
+        }
+
+        .fruit-card:hover .fruit-emoji {
+            transform: scale(1.1);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
         .fruit-name {
             font-weight: 600;
             color: var(--text-white);
-            font-size: 1rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
         }
-        
+
         .fruit-count {
             background: var(--success-gradient);
             color: var(--text-white);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 700;
             box-shadow: var(--shadow-sm);
-            min-width: 40px;
-            text-align: center;
+            min-width: 35px;
+            position: relative;
+        }
+
+        .fruit-count::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.2));
+            border-radius: 15px;
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .fruit-card:hover .fruit-count::before {
+            opacity: 1;
+        }
+
+        /* Empty state and low stock styling */
+        .low-stock {
+            border-color: rgba(245, 101, 101, 0.5) !important;
+        }
+
+        .low-stock::before {
+            background: var(--danger-gradient) !important;
+            opacity: 1 !important;
+        }
+
+        .low-stock .fruit-count {
+            background: var(--danger-gradient);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Inventory summary */
+        .inventory-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: var(--border-radius-sm);
+            color: var(--text-white);
+        }
+
+        .total-items {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .last-updated {
+            font-size: 0.85rem;
+            opacity: 0.8;
         }
         
         .grocery-list {
@@ -654,10 +747,25 @@
             .recipe-card {
                 padding: 1.5rem;
             }
+
+            .inventory-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 0.75rem;
+            }
+
+            .fruit-card {
+                padding: 1rem;
+                min-height: 100px;
+            }
+
+            .fruit-emoji {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
         }
 
         /* Add subtle animations */
-        .card, .recipe-card, .fruit-item, .btn {
+        .card, .recipe-card, .fruit-card, .btn {
             animation: fadeInUp 0.6s ease-out;
         }
 
@@ -677,6 +785,13 @@
         .dashboard .card:nth-child(2) { animation-delay: 0.2s; }
         .dashboard .card:nth-child(3) { animation-delay: 0.3s; }
         .dashboard .card:nth-child(4) { animation-delay: 0.4s; }
+
+        .fruit-card:nth-child(1) { animation-delay: 0.1s; }
+        .fruit-card:nth-child(2) { animation-delay: 0.15s; }
+        .fruit-card:nth-child(3) { animation-delay: 0.2s; }
+        .fruit-card:nth-child(4) { animation-delay: 0.25s; }
+        .fruit-card:nth-child(5) { animation-delay: 0.3s; }
+        .fruit-card:nth-child(6) { animation-delay: 0.35s; }
     </style>
 </head>
 <body>
@@ -708,11 +823,17 @@
             
             <div class="card">
                 <h3><span class="icon">📦</span>Current Inventory</h3>
-                <div class="inventory-list" id="inventoryList">
-                    <div class="empty-state">
-                        <div class="icon">🔍</div>
-                        <h3>Ready to Track</h3>
-                        <p>Start the camera to begin AI-powered fruit detection!</p>
+                <div class="inventory-container">
+                    <div class="inventory-summary" id="inventorySummary" style="display:none;">
+                        <span class="total-items" id="totalItems"></span>
+                        <span class="last-updated" id="lastUpdated"></span>
+                    </div>
+                    <div class="inventory-grid" id="inventoryGrid">
+                        <div class="empty-state">
+                            <div class="icon">🔍</div>
+                            <h3>Ready to Track</h3>
+                            <p>Start the camera to begin AI-powered fruit detection!</p>
+                        </div>
                     </div>
                 </div>
                 <div class="controls">
@@ -768,7 +889,7 @@
     </div>
 
     <script>
-        // Enhanced Fruit Tracker with improved styling
+        // Enhanced Fruit Tracker with Grid Inventory
         class EnhancedFruitTracker {
             constructor() {
                 this.model = null;
@@ -779,6 +900,14 @@
                 this.lastDetection = null;
                 this.detectionHistory = [];
                 this.isModelLoaded = false;
+                this.lastUpdated = new Date();
+                
+                // Comprehensive fruit emoji mapping
+                this.fruitEmojis = {
+                    apple: '🍎', banana: '🍌', carambola: '⭐', guava: '🟢', kiwi: '🥝',
+                    mango: '🥭', muskmelon: '🍈', orange: '🍊', peach: '🍑', pear: '🍐',
+                    persimmon: '🟠', pitaya: '🐉', plum: '🟣', pomegranate: '🔴', tomatoes: '🍅'
+                };
                 
                 // Kaggle fruit classes
                 this.fruitClasses = [
@@ -829,7 +958,6 @@
             async loadConfig() {
                 try {
                     this.showModelStatus('📡 Loading configuration...', 'loading');
-                    // Simulate config loading
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     this.config = {
                         models: {
@@ -855,16 +983,13 @@
                     const modelConfig = this.config.models.best_model;
                     this.showModelStatus(`🤖 Loading ${modelConfig.name}...`, 'loading');
                     
-                    // Simulate model loading
                     await new Promise(resolve => setTimeout(resolve, 2000));
                     
-                    // For demo purposes, we'll simulate a loaded model
                     this.model = {
                         predict: async (tensor) => {
-                            // Simulate prediction
                             const scores = new Array(this.fruitClasses.length).fill(0).map(() => Math.random());
                             const maxIndex = scores.indexOf(Math.max(...scores));
-                            scores[maxIndex] = 0.7 + Math.random() * 0.25; // Higher confidence for detected class
+                            scores[maxIndex] = 0.7 + Math.random() * 0.25;
                             return { data: () => Promise.resolve(scores) };
                         }
                     };
@@ -890,7 +1015,6 @@
                 document.getElementById('exportGroceryList').addEventListener('click', () => this.exportGroceryList());
                 document.getElementById('generateRecipes').addEventListener('click', () => this.generateRecipes());
                 
-                // Settings
                 document.getElementById('confidence').addEventListener('input', (e) => {
                     document.getElementById('confidenceValue').textContent = Math.round(e.target.value * 100) + '%';
                 });
@@ -933,7 +1057,6 @@
                 
                 try {
                     if (this.camera.readyState >= 2) {
-                        // Simulate fruit detection
                         const randomFruit = this.fruitClasses[Math.floor(Math.random() * this.fruitClasses.length)];
                         const confidence = 0.7 + Math.random() * 0.25;
                         
@@ -965,7 +1088,7 @@
                     if (this.isDetecting) {
                         this.detectFruits();
                     }
-                }, 1000); // Slower detection for demo
+                }, 1000);
             }
             
             showDetection(prediction) {
@@ -973,8 +1096,9 @@
                 status.style.display = 'block';
                 status.className = 'status success';
                 
+                const emoji = this.fruitEmojis[prediction.class] || '🍎';
                 status.innerHTML = `
-                    🏆 AI Detected: <strong>${prediction.class}</strong> 
+                    ${emoji} AI Detected: <strong>${prediction.class}</strong> 
                     (${Math.round(prediction.confidence * 100)}% confidence)
                 `;
                 
@@ -989,7 +1113,6 @@
                 
                 ctx.clearRect(0, 0, overlay.width, overlay.height);
                 
-                // Enhanced detection box styling
                 const gradient = ctx.createLinearGradient(0, 0, overlay.width, overlay.height);
                 gradient.addColorStop(0, '#4facfe');
                 gradient.addColorStop(1, '#00f2fe');
@@ -1007,7 +1130,9 @@
                 const y = (overlay.height - boxHeight) / 2;
                 
                 ctx.strokeRect(x, y, boxWidth, boxHeight);
-                ctx.fillText(`🏆 ${prediction.class} (${Math.round(prediction.confidence * 100)}%)`, x, y - 15);
+                
+                const emoji = this.fruitEmojis[prediction.class] || '🍎';
+                ctx.fillText(`${emoji} ${prediction.class} (${Math.round(prediction.confidence * 100)}%)`, x, y - 15);
             }
             
             clearDetectionDisplay() {
@@ -1024,9 +1149,12 @@
                 
                 const fruit = this.lastDetection.class;
                 this.inventory[fruit] = (this.inventory[fruit] || 0) + 1;
+                this.lastUpdated = new Date();
                 this.updateDisplay();
                 this.updateGroceryList();
-                this.showStatus(`✅ Added 1 ${fruit} to inventory!`, 'success');
+                
+                const emoji = this.fruitEmojis[fruit] || '🍎';
+                this.showStatus(`✅ Added 1 ${emoji} ${fruit} to inventory!`, 'success');
                 
                 this.detectionHistory.push({
                     fruit: fruit,
@@ -1045,9 +1173,12 @@
                     if (this.inventory[fruit] === 0) {
                         delete this.inventory[fruit];
                     }
+                    this.lastUpdated = new Date();
                     this.updateDisplay();
                     this.updateGroceryList();
-                    this.showStatus(`✅ Removed 1 ${fruit} from inventory!`, 'success');
+                    
+                    const emoji = this.fruitEmojis[fruit] || '🍎';
+                    this.showStatus(`✅ Removed 1 ${emoji} ${fruit} from inventory!`, 'success');
                     
                     this.detectionHistory.push({
                         fruit: fruit,
@@ -1056,15 +1187,20 @@
                         confidence: this.lastDetection.confidence
                     });
                 } else {
-                    this.showStatus(`❌ No ${fruit} in inventory to remove!`, 'error');
+                    const emoji = this.fruitEmojis[fruit] || '🍎';
+                    this.showStatus(`❌ No ${emoji} ${fruit} in inventory to remove!`, 'error');
                 }
             }
             
             updateDisplay() {
-                const inventoryList = document.getElementById('inventoryList');
+                const inventoryGrid = document.getElementById('inventoryGrid');
+                const inventorySummary = document.getElementById('inventorySummary');
+                const totalItems = document.getElementById('totalItems');
+                const lastUpdated = document.getElementById('lastUpdated');
                 
                 if (Object.keys(this.inventory).length === 0) {
-                    inventoryList.innerHTML = `
+                    inventorySummary.style.display = 'none';
+                    inventoryGrid.innerHTML = `
                         <div class="empty-state">
                             <div class="icon">🔍</div>
                             <h3>Ready to Track</h3>
@@ -1074,17 +1210,35 @@
                     return;
                 }
                 
+                // Show summary
+                inventorySummary.style.display = 'flex';
+                const totalCount = Object.values(this.inventory).reduce((sum, count) => sum + count, 0);
+                const uniqueFruits = Object.keys(this.inventory).length;
+                totalItems.textContent = `${totalCount} items (${uniqueFruits} types)`;
+                lastUpdated.textContent = `Updated: ${this.lastUpdated.toLocaleTimeString()}`;
+                
+                // Get minimum quantities for low stock detection
+                const minQuantities = {
+                    apple: parseInt(document.getElementById('minApples').value),
+                    banana: parseInt(document.getElementById('minBananas').value),
+                    orange: parseInt(document.getElementById('minOranges').value)
+                };
+                
                 let html = '';
                 for (const [fruit, count] of Object.entries(this.inventory)) {
+                    const emoji = this.fruitEmojis[fruit] || '🍎';
+                    const isLowStock = minQuantities[fruit] && count < minQuantities[fruit];
+                    
                     html += `
-                        <div class="fruit-item">
-                            <span class="fruit-name">${fruit.charAt(0).toUpperCase() + fruit.slice(1)}</span>
-                            <span class="fruit-count">${count}</span>
+                        <div class="fruit-card ${isLowStock ? 'low-stock' : ''}" title="${isLowStock ? 'Low Stock!' : ''}">
+                            <div class="fruit-emoji">${emoji}</div>
+                            <div class="fruit-name">${fruit.charAt(0).toUpperCase() + fruit.slice(1)}</div>
+                            <div class="fruit-count">${count}</div>
                         </div>
                     `;
                 }
                 
-                inventoryList.innerHTML = html;
+                inventoryGrid.innerHTML = html;
             }
             
             updateGroceryList() {
@@ -1101,7 +1255,8 @@
                     const currentQty = this.inventory[fruit] || 0;
                     if (currentQty < minQty) {
                         const needed = minQty - currentQty;
-                        needsList.push(`${needed} ${fruit}${needed > 1 ? 's' : ''}`);
+                        const emoji = this.fruitEmojis[fruit] || '🍎';
+                        needsList.push(`${needed} ${emoji} ${fruit}${needed > 1 ? 's' : ''}`);
                     }
                 }
                 
@@ -1139,7 +1294,6 @@
                 
                 let suggestedRecipes = [];
                 
-                // Find matching recipes
                 for (const [ingredients, recipes] of Object.entries(this.recipes)) {
                     const requiredFruits = ingredients.split(',');
                     if (requiredFruits.every(fruit => availableFruits.includes(fruit))) {
@@ -1147,7 +1301,6 @@
                     }
                 }
                 
-                // Add fruit-specific recipes
                 if (availableFruits.includes('apple')) {
                     suggestedRecipes.push({
                         title: 'Classic Apple Cinnamon Tart',
@@ -1165,8 +1318,9 @@
                 }
                 
                 if (suggestedRecipes.length === 0) {
+                    const fruitEmojis = availableFruits.map(fruit => this.fruitEmojis[fruit] || '🍎').join(' ');
                     suggestedRecipes.push({
-                        title: 'Fresh Fruit Medley',
+                        title: `Fresh Fruit Medley ${fruitEmojis}`,
                         ingredients: availableFruits.join(', '),
                         description: 'A simple and healthy mix of your available fresh fruits, perfect for any time of day.'
                     });
@@ -1189,6 +1343,7 @@
             clearInventory() {
                 if (confirm('Are you sure you want to clear all inventory?')) {
                     this.inventory = {};
+                    this.lastUpdated = new Date();
                     this.updateDisplay();
                     this.updateGroceryList();
                     this.showStatus('🗑️ Inventory cleared!', 'warning');
@@ -1233,7 +1388,8 @@
                     const currentQty = this.inventory[fruit] || 0;
                     if (currentQty < minQty) {
                         const needed = minQty - currentQty;
-                        groceryText += `☐ ${needed} ${fruit}${needed > 1 ? 's' : ''}\n`;
+                        const emoji = this.fruitEmojis[fruit] || '🍎';
+                        groceryText += `☐ ${needed} ${emoji} ${fruit}${needed > 1 ? 's' : ''}\n`;
                     }
                 }
                 
@@ -1259,10 +1415,10 @@
                 const status = document.getElementById('detectionStatus');
                 status.style.display = 'block';
                 status.className = `status ${type}`;
-                status.textContent = message;
+                status.innerHTML = message;
                 
                 setTimeout(() => {
-                    if (status.textContent === message) {
+                    if (status.innerHTML === message) {
                         status.style.display = 'none';
                     }
                 }, 4000);
