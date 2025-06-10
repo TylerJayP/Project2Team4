@@ -303,6 +303,182 @@
             color: var(--text-primary);
         }
         
+        /* Tab System Styles */
+        .tab-nav {
+            display: flex;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-sm);
+            padding: 0.25rem;
+            gap: 0.25rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: none;
+            border-radius: calc(var(--border-radius-sm) - 0.25rem);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: var(--transition);
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
+        .tab-btn:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-gradient);
+            color: var(--text-white);
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-btn.active:hover {
+            background: var(--primary-gradient);
+        }
+
+        .tab-btn .icon {
+            font-size: 1.1em;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        /* Thresholds Tab Styles */
+        .thresholds-container {
+            padding: 0.5rem 0;
+        }
+
+        .threshold-info {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .threshold-info h4 {
+            color: var(--text-white);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .threshold-info p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .threshold-grid {
+            display: grid;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .threshold-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .threshold-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .threshold-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-white);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .threshold-label .fruit-emoji {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .threshold-item input[type="number"] {
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-white);
+            width: 80px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .threshold-item input[type="number"]:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .threshold-item input[type="number"]::-webkit-outer-spin-button,
+        .threshold-item input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .threshold-item input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .threshold-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .threshold-actions .btn {
+            min-width: 140px;
+        }
+        
         /* NEW INVENTORY GRID STYLES */
         .inventory-container {
             margin: 1.5rem 0;
@@ -762,6 +938,36 @@
                 font-size: 2rem;
                 margin-bottom: 0.5rem;
             }
+
+            .tab-btn {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+                gap: 0.25rem;
+            }
+
+            .tab-btn .icon {
+                font-size: 1em;
+            }
+
+            .threshold-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .threshold-item input[type="number"] {
+                width: 100px;
+            }
+
+            .threshold-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .threshold-actions .btn {
+                min-width: auto;
+                width: 100%;
+            }
         }
 
         /* Add subtle animations */
@@ -823,22 +1029,77 @@
             
             <div class="card">
                 <h3><span class="icon">📦</span>Current Inventory</h3>
-                <div class="inventory-container">
-                    <div class="inventory-summary" id="inventorySummary" style="display:none;">
-                        <span class="total-items" id="totalItems"></span>
-                        <span class="last-updated" id="lastUpdated"></span>
-                    </div>
-                    <div class="inventory-grid" id="inventoryGrid">
-                        <div class="empty-state">
-                            <div class="icon">🔍</div>
-                            <h3>Ready to Track</h3>
-                            <p>Start the camera to begin AI-powered fruit detection!</p>
+                
+                <!-- Tab Navigation -->
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="inventory">
+                        <span class="icon">📋</span>Inventory
+                    </button>
+                    <button class="tab-btn" data-tab="thresholds">
+                        <span class="icon">⚙️</span>Thresholds
+                    </button>
+                </div>
+
+                <!-- Inventory Tab -->
+                <div class="tab-content active" id="inventoryTab">
+                    <div class="inventory-container">
+                        <div class="inventory-summary" id="inventorySummary" style="display:none;">
+                            <span class="total-items" id="totalItems"></span>
+                            <span class="last-updated" id="lastUpdated"></span>
+                        </div>
+                        <div class="inventory-grid" id="inventoryGrid">
+                            <div class="empty-state">
+                                <div class="icon">🔍</div>
+                                <h3>Ready to Track</h3>
+                                <p>Start the camera to begin AI-powered fruit detection!</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="controls">
+                        <button class="btn btn-warning" id="exportInventory">Export Data</button>
+                        <button class="btn" id="clearInventory">Clear All</button>
+                    </div>
                 </div>
-                <div class="controls">
-                    <button class="btn btn-warning" id="exportInventory">Export Data</button>
-                    <button class="btn" id="clearInventory">Clear All</button>
+
+                <!-- Thresholds Tab -->
+                <div class="tab-content" id="thresholdsTab">
+                    <div class="thresholds-container">
+                        <div class="threshold-info">
+                            <h4>🛒 Shopping List Minimums</h4>
+                            <p>Set minimum quantities to automatically generate your grocery list</p>
+                        </div>
+                        
+                        <div class="threshold-grid">
+                            <div class="threshold-item">
+                                <div class="threshold-label">
+                                    <span class="fruit-emoji">🍎</span>
+                                    <span>Apples</span>
+                                </div>
+                                <input type="number" id="minApples" value="3" min="0" max="50">
+                            </div>
+                            
+                            <div class="threshold-item">
+                                <div class="threshold-label">
+                                    <span class="fruit-emoji">🍌</span>
+                                    <span>Bananas</span>
+                                </div>
+                                <input type="number" id="minBananas" value="3" min="0" max="50">
+                            </div>
+                            
+                            <div class="threshold-item">
+                                <div class="threshold-label">
+                                    <span class="fruit-emoji">🍊</span>
+                                    <span>Oranges</span>
+                                </div>
+                                <input type="number" id="minOranges" value="2" min="0" max="50">
+                            </div>
+                        </div>
+                        
+                        <div class="threshold-actions">
+                            <button class="btn btn-success" id="saveThresholds">Save Settings</button>
+                            <button class="btn" id="resetThresholds">Reset to Default</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -867,23 +1128,17 @@
         </div>
         
         <div class="settings">
-            <h4><span class="icon">⚙️</span>Detection Settings</h4>
-            <div class="setting-item">
-                <label>Minimum Apples:</label>
-                <input type="number" id="minApples" value="3" min="0">
-            </div>
-            <div class="setting-item">
-                <label>Minimum Bananas:</label>
-                <input type="number" id="minBananas" value="3" min="0">
-            </div>
-            <div class="setting-item">
-                <label>Minimum Oranges:</label>
-                <input type="number" id="minOranges" value="2" min="0">
-            </div>
+            <h4><span class="icon">🎯</span>AI Detection Settings</h4>
             <div class="setting-item">
                 <label>AI Confidence Threshold:</label>
                 <input type="range" id="confidence" min="0.3" max="0.9" step="0.1" value="0.7">
                 <span class="confidence-display" id="confidenceValue">70%</span>
+            </div>
+            <div class="setting-info">
+                <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: 1rem;">
+                    Higher confidence means more accurate detection but may miss some fruits. 
+                    Lower confidence detects more fruits but may include false positives.
+                </p>
             </div>
         </div>
     </div>
@@ -948,6 +1203,7 @@
                     await this.loadConfig();
                     await this.loadBestModel();
                     this.setupEventListeners();
+                    this.loadThresholds(); // Load saved threshold settings
                     this.updateDisplay();
                 } catch (error) {
                     console.error('Initialization error:', error);
@@ -1014,6 +1270,13 @@
                 document.getElementById('updateGroceryList').addEventListener('click', () => this.updateGroceryList());
                 document.getElementById('exportGroceryList').addEventListener('click', () => this.exportGroceryList());
                 document.getElementById('generateRecipes').addEventListener('click', () => this.generateRecipes());
+                document.getElementById('saveThresholds').addEventListener('click', () => this.saveThresholds());
+                document.getElementById('resetThresholds').addEventListener('click', () => this.resetThresholds());
+                
+                // Tab switching
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
+                });
                 
                 document.getElementById('confidence').addEventListener('input', (e) => {
                     document.getElementById('confidenceValue').textContent = Math.round(e.target.value * 100) + '%';
@@ -1022,6 +1285,68 @@
                 ['minApples', 'minBananas', 'minOranges'].forEach(id => {
                     document.getElementById(id).addEventListener('change', () => this.updateGroceryList());
                 });
+            }
+            
+            switchTab(tabName) {
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+                document.getElementById(`${tabName}Tab`).classList.add('active');
+                
+                // If switching to thresholds tab, show helpful status
+                if (tabName === 'thresholds') {
+                    this.showStatus('⚙️ Adjust minimum quantities for your shopping list', 'success');
+                }
+            }
+            
+            saveThresholds() {
+                const thresholds = {
+                    apples: document.getElementById('minApples').value,
+                    bananas: document.getElementById('minBananas').value,
+                    oranges: document.getElementById('minOranges').value
+                };
+                
+                // Save to localStorage for persistence
+                localStorage.setItem('fruitThresholds', JSON.stringify(thresholds));
+                
+                this.updateGroceryList();
+                this.showStatus('✅ Threshold settings saved successfully!', 'success');
+                
+                // Switch back to inventory tab to see the effect
+                setTimeout(() => {
+                    this.switchTab('inventory');
+                }, 1500);
+            }
+            
+            resetThresholds() {
+                if (confirm('Reset all thresholds to default values?')) {
+                    document.getElementById('minApples').value = 3;
+                    document.getElementById('minBananas').value = 3;
+                    document.getElementById('minOranges').value = 2;
+                    
+                    // Remove from localStorage
+                    localStorage.removeItem('fruitThresholds');
+                    
+                    this.updateGroceryList();
+                    this.showStatus('🔄 Thresholds reset to default values', 'warning');
+                }
+            }
+            
+            loadThresholds() {
+                try {
+                    const saved = localStorage.getItem('fruitThresholds');
+                    if (saved) {
+                        const thresholds = JSON.parse(saved);
+                        if (thresholds.apples) document.getElementById('minApples').value = thresholds.apples;
+                        if (thresholds.bananas) document.getElementById('minBananas').value = thresholds.bananas;
+                        if (thresholds.oranges) document.getElementById('minOranges').value = thresholds.oranges;
+                    }
+                } catch (error) {
+                    console.warn('Could not load saved thresholds:', error);
+                }
             }
             
             async startCamera() {
